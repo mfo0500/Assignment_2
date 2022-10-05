@@ -1,0 +1,7 @@
+Tomatoes 4.99 Vegetables 36
+Garlic 10.0 Vegetables 55
+Potatoes 5.99 Vegetables 20
+Apples 2.99 Fruits 26
+Peaches 3.99 Fruits 12
+Jelly 2.5 Confectionery 17
+Noodles 1.5 Pasta 15
