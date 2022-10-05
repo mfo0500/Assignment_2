@@ -42,6 +42,8 @@ public class AZGroceriesOnlineShopView extends JFrame {
         setUsernameTextField(new JTextField());
         setPasswordTextField(new JTextField());
         setEmployeeIDTextField(new JTextField());
+        
+        JButton logout = new JButton("Log out");
 
         //How to organize the components in JPannel: 
         //1. set layout
