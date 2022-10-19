@@ -83,55 +83,55 @@ public class ListOfGroceries implements IsValid {
         setState("enter product name");
         System.out.println("Please enter product name: ");
         String productNameInput = scan.nextLine();
-        while (!IsValid(shop, productNameInput)) {
-             System.out.println("Please enter product name: ");
-            productNameInput = scan.nextLine();
-        }
-        if (IsValid(shop, productNameInput)) {
-            System.out.println("Please enter product price:");
-            setState("enter product price");
-            String productPriceInput = scan.nextLine();
-            while (!IsValid(shop, productPriceInput)) {
-                productPriceInput = scan.nextLine();
-            }
-            if (IsValid(shop, productPriceInput)) {
-                System.out.println("Please enter product category:");
-                setState("enter product category");
-                String productCategoryInput = scan.nextLine();
-                while (!IsValid(shop, productCategoryInput)) {
-                    productCategoryInput = scan.nextLine();
-                }
-                if (IsValid(shop, productCategoryInput)) {
-                    setState("enter product quantity");
-                    System.out.println("Please enter the quantity available:");
-                    String productQuantityInput = scan.nextLine();
-                    while (!IsValid(shop, productQuantityInput)) {
-                        productQuantityInput = scan.nextLine();
-                    }
-                    if (IsValid(shop, productQuantityInput)) {
-                        GroceryItems newItem = new GroceryItems(productNameInput, Double.parseDouble(productPriceInput), productCategoryInput, Integer.parseInt(productQuantityInput));
-                        try {
-                            //override the file if exists
-                            BufferedWriter outputStream = new BufferedWriter(new FileWriter("./resources/GroceryList.txt", true));
-                            System.out.println("The grocery item has been sucessfully added");
-                            outputStream.append(newItem.getProductName() + " " + newItem.getPrice() + " " + newItem.getCategory() + " " + newItem.getQuantityAvailable());
-                            outputStream.newLine();
-                            outputStream.close();
-                            getGroceries().add(newItem);
-                            shop.openStore(shop);
-                            
-                        } catch (FileNotFoundException e) {
-                            System.out.println("Error opening file");
-                        } catch (IOException e) {
-                            System.out.println("IO Exception");
-                        }
-                    }
-                    
-                }
-                
-            }
+//        while (!IsValid(shop, productNameInput)) {
+//             System.out.println("Please enter product name: ");
+//            productNameInput = scan.nextLine();
+//        }
+//        if (IsValid(shop, productNameInput)) {
+//            System.out.println("Please enter product price:");
+//            setState("enter product price");
+//            String productPriceInput = scan.nextLine();
+//            while (!IsValid(shop, productPriceInput)) {
+//                productPriceInput = scan.nextLine();
+//            }
+//            if (IsValid(shop, productPriceInput)) {
+//                System.out.println("Please enter product category:");
+//                setState("enter product category");
+//                String productCategoryInput = scan.nextLine();
+//                while (!IsValid(shop, productCategoryInput)) {
+//                    productCategoryInput = scan.nextLine();
+//                }
+//                if (IsValid(shop, productCategoryInput)) {
+//                    setState("enter product quantity");
+//                    System.out.println("Please enter the quantity available:");
+//                    String productQuantityInput = scan.nextLine();
+//                    while (!IsValid(shop, productQuantityInput)) {
+//                        productQuantityInput = scan.nextLine();
+//                    }
+//                    if (IsValid(shop, productQuantityInput)) {
+//                        GroceryItems newItem = new GroceryItems(productNameInput, Double.parseDouble(productPriceInput), productCategoryInput, Integer.parseInt(productQuantityInput));
+//                        try {
+//                            //override the file if exists
+//                            BufferedWriter outputStream = new BufferedWriter(new FileWriter("./resources/GroceryList.txt", true));
+//                            System.out.println("The grocery item has been sucessfully added");
+//                            outputStream.append(newItem.getProductName() + " " + newItem.getPrice() + " " + newItem.getCategory() + " " + newItem.getQuantityAvailable());
+//                            outputStream.newLine();
+//                            outputStream.close();
+//                            getGroceries().add(newItem);
+//                            shop.openStore(shop);
+//                            
+//                        } catch (FileNotFoundException e) {
+//                            System.out.println("Error opening file");
+//                        } catch (IOException e) {
+//                            System.out.println("IO Exception");
+//                        }
+//                    }
+//                    
+//                }
+//                
+//            }
             
-        }
+   //     }
         
     }
     
@@ -141,22 +141,91 @@ public class ListOfGroceries implements IsValid {
         Scanner scan = new Scanner(System.in);
         String itemChosen = scan.nextLine();
         setState("remove item");
-        while (!IsValid(shop, itemChosen)) {
-            itemChosen = scan.nextLine();
-        }
-        if (IsValid(shop, itemChosen)) {
-            int removedItem = Integer.parseInt(itemChosen) - 1;
-            shop.getGroceryList().getGroceries().remove(removedItem);
-            System.out.println("GroceryItem has been sucessfully removed");
-            updateGroceries();
-            shop.openStore(shop);
-        }
+//        while (!IsValid(shop, itemChosen)) {
+//            itemChosen = scan.nextLine();
+//        }
+//        if (IsValid(shop, itemChosen)) {
+//            int removedItem = Integer.parseInt(itemChosen) - 1;
+//            shop.getGroceryList().getGroceries().remove(removedItem);
+//            System.out.println("GroceryItem has been sucessfully removed");
+//            updateGroceries();
+//            shop.openStore(shop);
+//        }
         
     }
     
+    
+    public void modifyQuantity(OnlineShopAZGroceries shop)
+    {
+        System.out.println("Please choose the item you want to to modify the quantiry of");
+        System.out.println(toString());
+        Scanner scan = new Scanner(System.in);
+        String itemChosen = scan.nextLine();
+        setState("modify quantity");
+//        while(!IsValid(shop, itemChosen))
+//        {
+//            itemChosen = scan.nextLine();
+//        }
+//        if(IsValid(shop, itemChosen))
+//        {
+//            int selectedItem = Integer.parseInt(itemChosen) - 1 ;
+//            
+//            System.out.println("Please enter the desired quantity");
+//            setState("enter desired quantity");
+//            String desiredQuantity = scan.nextLine();
+//            while(!IsValid(shop, desiredQuantity))
+//            {
+//                System.out.println("Invalid input");
+//                System.out.println("Please enter the desired quantity");
+//                desiredQuantity = scan.nextLine();
+//            }
+//            if(IsValid(shop, desiredQuantity))
+//            {
+//                int selectedQuantity = Integer.parseInt(desiredQuantity);
+//                GroceryItems modifiedItem = shop.getGroceryList().getGroceries().get(selectedItem);
+//                modifiedItem.setQuantityAvailable(selectedQuantity);
+//                updateGroceries();
+//                System.out.println("The selected item has been sucessfully modified");
+//                shop.openStore(shop);
+//            }
+//        }
+    }
+    public void updateGroceries() {
+        try {
+            //override the file if exists
+            FileWriter outputStream = new FileWriter("./resources/GroceryList.txt");
+            
+            for (GroceryItems g : getGroceries()) {
+                outputStream.write(g.getProductName() + " " + g.getPrice() + " " + g.getCategory() + " " + g.getQuantityAvailable() + "\n");
+                
+            }
+            
+            outputStream.close();
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error opening file");
+        } catch (IOException e) {
+            System.out.println("IO Exception");
+        }
+    }
+
+    /**
+     * @return the state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
-    public boolean IsValid(OnlineShopAZGroceries shop, String choice) {
-        
+    public boolean IsValid(String choice) {
+
         boolean isValid = false;
          if (choice.equals("x") || choice.equals("X")) {
             System.exit(0);
@@ -164,7 +233,7 @@ public class ListOfGroceries implements IsValid {
         if (choice.equals("/")) {
             if(getState().equals("enter product name"))
             {
-                shop.openStore(shop);
+              //   display store
             }
             
         }
@@ -180,13 +249,13 @@ public class ListOfGroceries implements IsValid {
                     isBlank = true;
                     System.out.println("Input can not be null or blank. Please try again.");
                 }
-                for (GroceryItems g : shop.getGroceryList().getGroceries()) {
-                    
-                    if (g.getProductName().equalsIgnoreCase(choice.trim())) {
-                        alreadyExists = true;
-                        System.out.println("Grocery item already exists. If you want to increase the quantity available for that grocery item go to \"Mofidy the quantity of an item\" Please try again.");
-                    }
-                }
+//                for (GroceryItems g : shop.getGroceryList().getGroceries()) {
+//                    
+//                    if (g.getProductName().equalsIgnoreCase(choice.trim())) {
+//                        alreadyExists = true;
+//                        System.out.println("Grocery item already exists. If you want to increase the quantity available for that grocery item go to \"Mofidy the quantity of an item\" Please try again.");
+//                    }
+//                }
                 boolean tooShort = false;
                 if (choice.trim().length() < 3) {
                     tooShort = true;
@@ -263,76 +332,6 @@ public class ListOfGroceries implements IsValid {
             System.out.println("Invalid input. Please input again.");
             isValid = false;
         }
-        return isValid;
-        
-    }
-    
-    public void modifyQuantity(OnlineShopAZGroceries shop)
-    {
-        System.out.println("Please choose the item you want to to modify the quantiry of");
-        System.out.println(toString());
-        Scanner scan = new Scanner(System.in);
-        String itemChosen = scan.nextLine();
-        setState("modify quantity");
-        while(!IsValid(shop, itemChosen))
-        {
-            itemChosen = scan.nextLine();
-        }
-        if(IsValid(shop, itemChosen))
-        {
-            int selectedItem = Integer.parseInt(itemChosen) - 1 ;
-            
-            System.out.println("Please enter the desired quantity");
-            setState("enter desired quantity");
-            String desiredQuantity = scan.nextLine();
-            while(!IsValid(shop, desiredQuantity))
-            {
-                System.out.println("Invalid input");
-                System.out.println("Please enter the desired quantity");
-                desiredQuantity = scan.nextLine();
-            }
-            if(IsValid(shop, desiredQuantity))
-            {
-                int selectedQuantity = Integer.parseInt(desiredQuantity);
-                GroceryItems modifiedItem = shop.getGroceryList().getGroceries().get(selectedItem);
-                modifiedItem.setQuantityAvailable(selectedQuantity);
-                updateGroceries();
-                System.out.println("The selected item has been sucessfully modified");
-                shop.openStore(shop);
-            }
-        }
-    }
-    public void updateGroceries() {
-        try {
-            //override the file if exists
-            FileWriter outputStream = new FileWriter("./resources/GroceryList.txt");
-            
-            for (GroceryItems g : getGroceries()) {
-                outputStream.write(g.getProductName() + " " + g.getPrice() + " " + g.getCategory() + " " + g.getQuantityAvailable() + "\n");
-                
-            }
-            
-            outputStream.close();
-            
-        } catch (FileNotFoundException e) {
-            System.out.println("Error opening file");
-        } catch (IOException e) {
-            System.out.println("IO Exception");
-        }
-    }
-
-    /**
-     * @return the state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * @param state the state to set
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
+        return isValid;    }
     
 }

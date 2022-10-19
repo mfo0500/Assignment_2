@@ -10,6 +10,6 @@ package onlineshopazgroceries;
  */
 public interface IsValid { // is an interface that checks the validity of the user's responses
     
-   public boolean IsValid(OnlineShopAZGroceries shop, String choice);
+   public boolean IsValid( String choice);
     
 }

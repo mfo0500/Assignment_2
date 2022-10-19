@@ -82,12 +82,12 @@ public class Cart implements IsValid {
         setState("choose cart options");
         Scanner scan = new Scanner(System.in);
         String choice = scan.nextLine();
-        while (!IsValid(shop, choice)) {
+        while (!IsValid( choice)) {
             
             choice = scan.nextLine();
 
         }
-        if (IsValid(shop, choice)) {
+        if (IsValid(choice)) {
             int preference = Integer.parseInt(choice);
             switch (preference) {
                 case 1:
@@ -130,10 +130,10 @@ public class Cart implements IsValid {
         }
         Scanner scanner = new Scanner(System.in);
         String itemChosen = scanner.nextLine();
-        while (!IsValid(shop, itemChosen)) {
+        while (!IsValid( itemChosen)) {
             itemChosen = scanner.nextLine();
         }
-        if (IsValid(shop, itemChosen)) {
+        if (IsValid( itemChosen)) {
             chooseDesiredQuantity(shop, itemChosen);
         }
 
@@ -154,11 +154,11 @@ public class Cart implements IsValid {
             System.out.println("How much of this item would you like to purchase?");
             setState("chosen quantity");
             String quantityChosen = scanner.nextLine();
-            while (!IsValid(shop, quantityChosen)) {
+            while (!IsValid(quantityChosen)) {
                 quantityChosen = scanner.nextLine();
 
             }
-            if (IsValid(shop, quantityChosen)) {
+            if (IsValid(quantityChosen)) {
                 int chosenQuantity = Integer.parseInt(quantityChosen);
                 if (chosenQuantity == 0) {
 
@@ -193,14 +193,14 @@ public class Cart implements IsValid {
         }
         Scanner scanner = new Scanner(System.in);
         String itemChosen = scanner.nextLine();
-        while (!IsValid(shop, itemChosen)) {
+        while (!IsValid( itemChosen)) {
             System.out.println("Invalid input. Please try again");
              System.out.println("Which item would you like removed?");
              System.out.println(shop.getUserAccount().getUserCart().toString(shop));
              System.out.println("\nPress x or X to exit\nPress / to go back");
             itemChosen = scanner.nextLine();
         }
-        if (IsValid(shop, itemChosen)) {
+        if (IsValid( itemChosen)) {
             int chosenItem = Integer.parseInt(itemChosen) - 1;
             shop.getUserAccount().getUserCart().setTotal(shop.getUserAccount().getUserCart().getTotal() - userItems[chosenItem].getPrice() * shop.getUserAccount().getUserCart().getItemsAdded().get(userItems[chosenItem]) );
             shop.getUserAccount().getUserCart().getItemsAdded().remove(userItems[chosenItem]);
@@ -286,24 +286,25 @@ public class Cart implements IsValid {
     //  public boolean IsValid(OnlineShopAZGroceries shop, String choice) function prototype
     // This function checks the validity of the users reponse provided (String choice) to every situation where a user is asked for a response 
     
+
     @Override
-    public boolean IsValid(OnlineShopAZGroceries shop, String choice) {
-        // Exit the shop if the user inputs 'x' or 'X'.
+    public boolean IsValid(String choice) {
+// Exit the shop if the user inputs 'x' or 'X'.
         if (choice.equals("x") || choice.equals("X")) {       
             System.exit(0);
         }
         if (choice.equals("/")) {
             if(getState().equals("choose cart options"))
             {
-                shop.openStore(shop);
+                // open store 
             }
             if(getState().equals("remove item") || getState().equals("change quantity") )
             {
-                cartOptions(shop);
+               // display  cart options
             }
             if(getState().equals("chosen quantity"))
             {
-                chooseItemToModify( shop); 
+               // choose item to modify
             }
         }
         boolean isValid = false;
@@ -325,9 +326,9 @@ public class Cart implements IsValid {
                 }
                 if (getState().equals("chosen quantity")) {
                     int decision = Integer.parseInt(choice);
-                    if (decision >= 0 && decision <=  shop.getSelectedItem().getQuantityAvailable()) {
-                        isValid = true;
-                    }
+//                    if (decision >= 0 && decision <=  shop.getSelectedItem().getQuantityAvailable()) {
+//                        isValid = true;
+//                    }
 
                 }
 
@@ -337,7 +338,6 @@ public class Cart implements IsValid {
             System.out.println("Invalid input. Please input again.");
             isValid = false;
         }
-        return isValid;
-    }
+        return isValid;    }
 
 }

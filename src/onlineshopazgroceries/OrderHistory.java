@@ -47,11 +47,11 @@ public class OrderHistory implements IsValid{
         System.out.println("\nPress / to go back\nPress x or X to exit");
         Scanner scanChoice = new Scanner(System.in);
         String inputChoice = scanChoice.nextLine();
-        while(!IsValid(shop, inputChoice))
+        while(!IsValid( inputChoice))
         {
             inputChoice = scanChoice.nextLine();
         }
-        if(IsValid(shop, inputChoice))
+        if(IsValid(inputChoice))
         {
             shop.openStore(shop);
         }
@@ -78,9 +78,11 @@ public class OrderHistory implements IsValid{
     // The public boolean IsValid(OnlineShopAZGroceries shop, String choice) is the implementation of the interface IsValidusing the 
     //  public boolean IsValid(OnlineShopAZGroceries shop, String choice) function prototype
     // This function checks the validity of the users reponse provided (String choice) to every situation where a user is asked for a response 
+    
+
     @Override
-    public boolean IsValid(OnlineShopAZGroceries shop, String choice) {
-          boolean isValid = false;
+    public boolean IsValid(String choice) {
+     boolean isValid = false;
         
         try {
             if (choice.equals("x") || choice.equals("X")) {
@@ -96,7 +98,7 @@ public class OrderHistory implements IsValid{
             System.out.println("Invalid input. Please input again.");
             isValid = false;
         }
-        return isValid; 
+        return isValid;     
     }
     
     
