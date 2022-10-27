@@ -126,6 +126,31 @@ public class ShopDatabase {
         return adminAccounts;
 
     }
+    
+    public ListOfGroceries loadGroceries()
+    {
+        ListOfGroceries groceryList = new ListOfGroceries();
+        try {
+            conn = DriverManager.getConnection(url, dbusername, dbpassword);
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Table_of_Grocery_Items");
+            while (rs.next()) {
+                String productName = rs.getString("productName");
+                double productPrice = rs.getDouble("price");
+                String productCategory = rs.getString("catagory");
+                int productQuantityAvailable = rs.getInt("quantity");
+                
+                GroceryItems newItem = new GroceryItems(productName, productPrice, productCategory, productQuantityAvailable);                
+                groceryList.getGroceries().add(newItem);
+                
+            }
+
+        } catch (Throwable e) {
+            System.out.println("error Creating List of Groceries");
+
+        }
+        return groceryList;
+    }
 
     private boolean checkTableExisting(String newTableName) {
         boolean flag = false;
@@ -192,9 +217,10 @@ public class ShopDatabase {
                         for (CustomerAccount c : customerAccounts) {
                             if (c.getUsername().equals(username)) {
                                 data.setUserAccount(c); // stores the customer account in the ShopData class
+                                
                             }
                         }
-
+                        data.setListOfGroceries(this.loadGroceries());
                         data.setSignedIn(true);
 
                         //      data.setUserAccount(userAccount);
@@ -218,7 +244,8 @@ public class ShopDatabase {
                                 data.setUserAccount(a); // stores the customer account in the ShopData class
                             }
                         }
-
+                        
+                        data.setListOfGroceries(this.loadGroceries());
                         data.setSignedIn(true);
                     } else {
                         data.setSignedIn(false);
@@ -246,6 +273,7 @@ public class ShopDatabase {
                     // invalid account
                    // username already exists 
                    // give user message that account already exists
+                   data.setNeverFailedCreatingAccount(false);
                    data.setAccountCreated(false);
                    data.setReasonAccountCreationFailed("Username already exists");
                    
@@ -255,22 +283,23 @@ public class ShopDatabase {
             ResultSet adminResultSet = statement.executeQuery("SELECT username FROM Table_of_Admin_Accounts ");
             if (adminResultSet.next()) {
                 String existingUsername = adminResultSet.getString("username");
-                if (existingUsername.equals(createdUsername)) {
+                if (existingUsername.equals(createdUsername) ) {
                     accountExists = true;
                     // invalid account
                    // username already exists 
                    // give user message that account already exists
+                   data.setNeverFailedCreatingAccount(false);
                    data.setAccountCreated(false);
                    data.setReasonAccountCreationFailed("Username already exists");
                    
                 }
                 
             }
-            else
-                {
-                    statement.executeUpdate("INSERT INTO Table_of_Admin_Accounts VALUES ('" + createdUsername + "', '" + createdPassword + "', '" + createdEmployeeID + "')");
+            if(accountExists == false)
+            {
+                statement.executeUpdate("INSERT INTO Table_of_Admin_Accounts VALUES ('" + createdUsername + "', '" + createdPassword + "', '" + createdEmployeeID + "')");
                     data.setAccountCreated(true);
-                }
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
@@ -286,13 +315,14 @@ public class ShopDatabase {
             Statement statement = conn.createStatement();
             boolean accountExists = false;
             ResultSet customerResultSet = statement.executeQuery("SELECT username FROM Table_of_Customer_Accounts ");
-            if (customerResultSet.next()) {
+            while (customerResultSet.next()) {
                 String existingUsername = customerResultSet.getString("username");
                 if (existingUsername.equals(createdUsername)) {
                     accountExists = true;
                     // invalid account
                    // username already exists 
                    // give user message that account already exists
+                   data.setNeverFailedCreatingAccount(false);
                    data.setAccountCreated(false);
                    data.setReasonAccountCreationFailed("Username already exists");
                    
@@ -301,13 +331,14 @@ public class ShopDatabase {
             }
             
             ResultSet adminResultSet = statement.executeQuery("SELECT username FROM Table_of_Admin_Accounts ");
-            if (adminResultSet.next()) {
+            while (adminResultSet.next()) {
                 String existingUsername = adminResultSet.getString("username");
                 if (existingUsername.equals(createdUsername)) {
                     accountExists = true;
                     // invalid account
                    // username already exists 
                    // give user message that account already exists
+                   data.setNeverFailedCreatingAccount(false);
                    data.setAccountCreated(false);
                    data.setReasonAccountCreationFailed("Username already exists");
                    

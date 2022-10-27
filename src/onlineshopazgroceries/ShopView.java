@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
@@ -29,25 +30,22 @@ import javax.swing.SwingConstants;
 public class ShopView extends JFrame implements Observer {
 
     // componants needed for sign in page 
+    private JPanel titlePanel = new JPanel();
     private JLabel storeTitle = new JLabel("WELCOME TO THE AZGROCERIES ONLINE STORE", SwingConstants.CENTER);
-    private JLabel usernameLabel;
-    private JLabel passwordLabel;
-    private JLabel employeeIDLabel;
-    private JTextField usernameTextField;
-    private JTextField passwordTextField;
-    private JTextField employeeIDTextField;
-    private JButton signInButton;
+    private JLabel usernameLabel = new JLabel("Enter Username:", SwingConstants.CENTER);
+    private JLabel passwordLabel = new JLabel("Enter Password:", SwingConstants.CENTER);
+    private JLabel employeeIDLabel = new JLabel("Enter Employee ID:", SwingConstants.CENTER);
+    private JTextField usernameTextField = new JTextField();
+    private JTextField passwordTextField = new JTextField();
+    private JTextField employeeIDTextField = new JTextField();
+    private JButton signInButton = new JButton("Sign in");
+    private JButton createAccountButton = new JButton("Create Account");
+    private JButton continueAsGuestButton = new JButton("Continue as Guest");
+    private JPanel signInPanel = new JPanel();
+    
+    
     private JLabel loginStatus;
-    private JButton createAccountButton;
-    private JButton continueAsGuestButton;
-    private JPanel signInPanel;
-    private JPanel titlePanel;
 
-    private JButton searchButton;
-    private JTextField searchTextField;
-    private JButton cartButton;
-    private JButton checkoutButton;
-    private JButton viewOrderHistoryButton;
     private JLabel welcomeMessage;
 
     private JButton createCustomerAccountButton = new JButton("Create Customer Account");
@@ -76,60 +74,25 @@ public class ShopView extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         getStoreTitle().setFont(new Font("Times New Roman", Font.BOLD, 30));
-        setUsernameLabel(new JLabel("Enter Username:", SwingConstants.CENTER));
-        setPasswordLabel(new JLabel("Enter Password:", SwingConstants.CENTER));
-        setEmployeeIDLabel(new JLabel("Enter Employee ID:", SwingConstants.CENTER));
-        setUsernameTextField(new JTextField());
-        setPasswordTextField(new JTextField());
-        setEmployeeIDTextField(new JTextField());
+        
 
-        setSignInButton(new JButton("Sign in"));
-        setCreateAccountButton(new JButton("Create Account"));
-        setContinueAsGuestButton(new JButton("Continue as Guest"));
-
-        setTitlePanel(new JPanel());
-        getTitlePanel().add(getStoreTitle());
-
-        add(getTitlePanel(), BorderLayout.NORTH);
-        JPanel signInPanel = new JPanel();
-        signInPanel.setLayout(new GridLayout(3, 2));
-
-        signInPanel.add(getUsernameLabel());
-        signInPanel.add(getUsernameTextField());
-        signInPanel.add(getPasswordLabel());
-        signInPanel.add(getPasswordTextField());
-        signInPanel.add(getEmployeeIDLabel());
-        signInPanel.add(getEmployeeIDTextField());
-        add(signInPanel, BorderLayout.CENTER);
-
-        JPanel southPanel = new JPanel();
-        southPanel.add(getSignInButton());
-        southPanel.add(getCreateAccountButton());
-        southPanel.add(getContinueAsGuestButton());
-
-        setLoginStatus(new JLabel("Press \"Sign in\" to continue.", SwingConstants.CENTER));
-
-        southPanel.add(getLoginStatus());
-        add(southPanel, BorderLayout.SOUTH);
-        setVisible(true);
-        revalidate();
-        repaint();
+        this.DisplaySigninService();
 
     }
 
     public void DisplaySigninService() {
         this.getContentPane().removeAll();
+        getTitlePanel().add(getStoreTitle());
         add(getTitlePanel(), BorderLayout.NORTH);
-        JPanel signInPanel = new JPanel();
-        signInPanel.setLayout(new GridLayout(3, 2));
+        getSignInPanel().setLayout(new GridLayout(3, 2));
 
-        signInPanel.add(getUsernameLabel());
-        signInPanel.add(getUsernameTextField());
-        signInPanel.add(getPasswordLabel());
-        signInPanel.add(getPasswordTextField());
-        signInPanel.add(getEmployeeIDLabel());
-        signInPanel.add(getEmployeeIDTextField());
-        add(signInPanel, BorderLayout.CENTER);
+        getSignInPanel().add(getUsernameLabel());
+        getSignInPanel().add(getUsernameTextField());
+        getSignInPanel().add(getPasswordLabel());
+        getSignInPanel().add(getPasswordTextField());
+        getSignInPanel().add(getEmployeeIDLabel());
+        getSignInPanel().add(getEmployeeIDTextField());
+        add(getSignInPanel(), BorderLayout.CENTER);
 
         JPanel southPanel = new JPanel();
         southPanel.add(getSignInButton());
@@ -175,7 +138,10 @@ public class ShopView extends JFrame implements Observer {
         getTitlePanel().add(getStoreTitle());
         getTitlePanel().add(getWelcomeMessage());
         add(getTitlePanel(), BorderLayout.NORTH);
+        
+     //   add(getGroceryItemDisplayPanel(), BorderLayout.SOUTH);
 
+        
         setVisible(true);
         this.revalidate();
         this.repaint();
@@ -227,11 +193,11 @@ public class ShopView extends JFrame implements Observer {
 
         JPanel southPanel = new JPanel();
         JPanel createAccountButtonContainer = new JPanel();
-        
+
         createAccountButtonContainer.add(getOfficialCreateAdminAccountButton());
-        
-         southPanel.setLayout(new GridLayout(2, 1));
-         southPanel.add(createAccountButtonContainer);
+
+        southPanel.setLayout(new GridLayout(2, 1));
+        southPanel.add(createAccountButtonContainer);
         southPanel.add(getCreateAccountStatus());
 
         add(southPanel, BorderLayout.SOUTH);
@@ -243,7 +209,7 @@ public class ShopView extends JFrame implements Observer {
 
     public void DisplayCreateCustomerAccountPage() {
         this.getContentPane().removeAll();
-         this.setSize(800, 225);
+        this.setSize(800, 225);
         getTitlePanel().add(getStoreTitle());
         add(getTitlePanel(), BorderLayout.NORTH);
 
@@ -263,11 +229,11 @@ public class ShopView extends JFrame implements Observer {
 
         JPanel southPanel = new JPanel();
         JPanel buttonContainer = new JPanel();
-        
+
         buttonContainer.add(getOfficialCreateCustomerAccountButton());
-        
+
         southPanel.setLayout(new GridLayout(2, 1));
-      //  getOfficialCreateCustomerAccountButton().setSize(50, 10);
+        //  getOfficialCreateCustomerAccountButton().setSize(50, 10);
         southPanel.add(buttonContainer);
 
         southPanel.add(getCreateAccountStatus());
@@ -327,6 +293,7 @@ public class ShopView extends JFrame implements Observer {
         {
             this.getUsernameTextField().setText("");
             this.getPasswordTextField().setText("");
+            this.getEmployeeIDTextField().setText("");
 
             this.getLoginStatus().setText("Incorrect username or password.");
 
@@ -339,37 +306,107 @@ public class ShopView extends JFrame implements Observer {
             if (data.isCreateAdminAccountRequested()) {
                 this.DisplayCreateAdminAccountPage();
             }
-            
-        }
-        if (!data.isAccountCreated()&& !data.neverFailedCreatingAccount()) {
-                this.createAccountStatus.setText(data.getReasonAccountCreationFailed() + " Press \"Create Account \" to try again.");
-                // confirm acccount is created sucessfully
-                // show sign in button for user to sign in again
-            }
-            if (data.isAccountCreated()) {
-                if (data.isCreateAdminAccountRequested()) {
-                    String accountType = "Admin";
-                    this.DisplayAccountSucessfullyCreatedPage(accountType);
-                } else {
-                    this.DisplayAccountSucessfullyCreatedPage("Customer");
-                }
 
-                // confirm acccount is created sucessfully
-                // show sign in button for user to sign in again
+        }
+        if (!data.isAccountCreated() && !data.neverFailedCreatingAccount()) {
+            this.createAccountStatus.setText(data.getReasonAccountCreationFailed() + " Press \"Create Account \" to try again.");
+            // confirm acccount is created sucessfully
+            // show sign in button for user to sign in again
+        }
+        if (data.isAccountCreated()) {
+            if (data.isCreateAdminAccountRequested()) {
+                this.DisplayAccountSucessfullyCreatedPage("Admin");
             }
+            if (data.isCreateCustomerAccountRequested()) {
+                this.DisplayAccountSucessfullyCreatedPage("Customer");
+            }
+
+            // confirm acccount is created sucessfully
+            // show sign in button for user to sign in again
+        }
         if (data.isSignedIn()) {
+            
 
             if (data.getUserAccount() != null) {
                 setWelcomeMessage(new JLabel("Welcome, " + data.getUserAccount().getUsername(), SwingConstants.CENTER));
+                 JPanel GroceryItemDisplayPanel = new JPanel();
+                  ArrayList<JButton> addButtons = new ArrayList<>();
+                if(data.getListOfGroceries().getGroceries().isEmpty())
+                {
+                    
+                }
+                else
+                {
+                   
+                int numberOfRows = (int)data.getListOfGroceries().getGroceries().size()/3+1;
+                GroceryItemDisplayPanel.setLayout(new GridLayout(numberOfRows, 3));
+                 for(GroceryItems g : data.getListOfGroceries().getGroceries())
+                    {
+                      JPanel GroceryItemContainer = new JPanel();
+                      GroceryItemContainer.setLayout(new GridLayout(5, 1));
+                      
+                      JLabel productName = new JLabel(g.getProductName());
+                      productName.setFont(new Font("Arial", Font.BOLD, 15));
+                      GroceryItemContainer.add(productName);
+                      
+                      JLabel productCategory = new JLabel("Category: "+ g.getCategory());
+                      GroceryItemContainer.add(productCategory);
+                      
+                      JLabel productPrice = new JLabel("Price: $"+g.getPrice());
+                      GroceryItemContainer.add(productPrice);
+                      
+                      JLabel productQuantityAvailable = new JLabel("Quantity Avaialble: "+g.getQuantityAvailable());
+                      GroceryItemContainer.add(productQuantityAvailable);
+                      
+                      JPanel AddItemPanel = new JPanel();
+                      AddItemPanel.add(new JButton("-"));
+                      AddItemPanel.add(new JTextField("0", 2));
+                      AddItemPanel.add(new JButton("+"));
+                      JButton addItemButton = new JButton("Add " + g.getProductName());
+                     
+                      addButtons.add(addItemButton);
+                      
+                      AddItemPanel.add(addItemButton);
+                      GroceryItemContainer.add(AddItemPanel);
+                      
+                      GroceryItemDisplayPanel.add(GroceryItemContainer);
+                      
+                    }
+                }
+                
+                
                 if (data.getUserAccount().getRole().equals("Customer")) {
 
-                    this.DisplayCustomerShop();
+                    //        this.DisplayCustomerShop();
+                    
+                    CustomerShopView view = new CustomerShopView();
+                    view.getWelcomeMessage().setText(getWelcomeMessage().getText() + ", you are ready to shop!");
+                    view.setAllAddItemButtons(addButtons);
+                    view.getGroceryItemDisplayPanel().setViewportView(GroceryItemDisplayPanel);
+                    CustomerShopModel model = new CustomerShopModel();
+                    model.data = data;
+                    CustomerShopController controller = new CustomerShopController(view, model);
+                    
+
+                    model.addObserver(view);
+
                 }
                 if (data.getUserAccount().getRole().equals("Admin")) {
-                    this.DisplayAdminShop();
+                  //  this.DisplayAdminShop();
+              //      this.welcomeMessage.setText(getWelcomeMessage().getText() + ", you are a admin!");
+                    AdminShopView view = new AdminShopView();
+                    view.getWelcomeMessage().setText(getWelcomeMessage().getText() + ", you are ready to shop!");
+                    view.setAllAddItemButtons(addButtons);
+                     view.getGroceryItemDisplayPanel().setViewportView(GroceryItemDisplayPanel);
+                    AdminShopModel model = new AdminShopModel();
+                    model.data = data;
+                    AdminShopController controller = new AdminShopController(view, model);
+
+                    model.addObserver(view);
                 }
             } else {
                 setWelcomeMessage(new JLabel("Welcome, User", SwingConstants.CENTER));
+
                 this.DisplayGuestShop();
             }
         }

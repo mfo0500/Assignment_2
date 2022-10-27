@@ -154,6 +154,7 @@ public class SignInServiceModel extends Observable implements IsValid {
     public void continueAsGuest() {
 
         data.setUserAccount(null);
+        data.setListOfGroceries(this.database.loadGroceries());
         data.setSignedIn(true);
         this.setChanged();
         this.notifyObservers(this.data);

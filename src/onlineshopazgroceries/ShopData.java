@@ -4,6 +4,8 @@
  */
 package onlineshopazgroceries;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author krist
@@ -12,7 +14,7 @@ public class ShopData {
 
     
     private boolean signedIn = false;
-    public String username;
+    private ListOfGroceries listOfGroceries;
     private AZGroceriesAccount userAccount;
     private boolean createAccountRequested = false;
     private boolean createCustomerAccountRequested = false;
@@ -21,6 +23,10 @@ public class ShopData {
     private int numberOfReasonsAccountCreationFailed = 0;
     private boolean accountCreated = false;
     private String reasonAccountCreationFailed = "";
+    private String reasonSearchFailed = "";
+    private String searchQuery = "";
+    private ArrayList<GroceryItems> searchedItems = new ArrayList<>();
+    private boolean userSearching = false;
     
 
     /**
@@ -147,6 +153,76 @@ public class ShopData {
      */
     public void setNumberOfReasonsAccountCreationFailed(int numberOfReasonsAccountCreationFailed) {
         this.numberOfReasonsAccountCreationFailed = numberOfReasonsAccountCreationFailed;
+    }
+
+    /**
+     * @return the listOfGroceries
+     */
+    public ListOfGroceries getListOfGroceries() {
+        return listOfGroceries;
+    }
+
+    /**
+     * @param listOfGroceries the listOfGroceries to set
+     */
+    public void setListOfGroceries(ListOfGroceries listOfGroceries) {
+        this.listOfGroceries = listOfGroceries;
+    }
+
+    /**
+     * @return the searchedItems
+     */
+    public ArrayList<GroceryItems> getSearchedItems() {
+        return searchedItems;
+    }
+
+    /**
+     * @param searchedItems the searchedItems to set
+     */
+    public void setSearchedItems(ArrayList<GroceryItems> searchedItems) {
+        this.searchedItems = searchedItems;
+    }
+
+    /**
+     * @return the userSearching
+     */
+    public boolean isUserSearching() {
+        return userSearching;
+    }
+
+    /**
+     * @param userSearching the userSearching to set
+     */
+    public void setUserSearching(boolean userSearching) {
+        this.userSearching = userSearching;
+    }
+
+    /**
+     * @return the reasonSearchFailed
+     */
+    public String getReasonSearchFailed() {
+        return reasonSearchFailed;
+    }
+
+    /**
+     * @param reasonSearchFailed the reasonSearchFailed to set
+     */
+    public void setReasonSearchFailed(String reasonSearchFailed) {
+        this.reasonSearchFailed = reasonSearchFailed;
+    }
+
+    /**
+     * @return the searchQuery
+     */
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    /**
+     * @param searchQuery the searchQuery to set
+     */
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
     }
     
 }
