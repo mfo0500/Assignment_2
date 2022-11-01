@@ -252,12 +252,15 @@ public class AdminShopModel extends Observable implements IsValid {
         this.data.setRequestingToRemoveItem(false);
         this.data.setViewCartRequested(false);
         this.data.setItemAddedToCart(false);
+        this.data.setPurchaseRequested(false);
+        this.data.setPurcahseSucessful(false);
             
        this.setChanged();
         this.notifyObservers(this.data);     
     }
     public void requestToViewOrderHistory()
     {
+        this.data = this.database.loadUserCart(this.data);
         data.setViewOrderHistoryRequested(true);
         
          this.setChanged();

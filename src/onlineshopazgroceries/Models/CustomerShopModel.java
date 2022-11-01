@@ -47,6 +47,7 @@ public class CustomerShopModel  extends Observable implements IsValid{
             data.setSearchedItems(searchedItems);
             data.setSearchQuery(queryEntered);
             data.setUserSearching(true);
+            
         }
          this.setChanged();
         this.notifyObservers(this.data);
@@ -133,6 +134,7 @@ public class CustomerShopModel  extends Observable implements IsValid{
     
      public void requestToViewOrderHistory()
     {
+        this.data = this.database.loadOrderHistory(data);
         data.setViewOrderHistoryRequested(true);
         
          this.setChanged();
@@ -168,7 +170,8 @@ public class CustomerShopModel  extends Observable implements IsValid{
         this.data.setRequestingToRemoveItem(false);
         this.data.setViewCartRequested(false);
         this.data.setItemAddedToCart(false);
-        
+        this.data.setPurchaseRequested(false);
+        this.data.setPurcahseSucessful(false);
             
             
        this.setChanged();

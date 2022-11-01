@@ -857,9 +857,14 @@ public class AdminShopView extends JFrame implements Observer {
                 for (Cart c : data.getUserAccount().getOrderHistory().getOrderHistory().keySet()) {
 
                     JPanel cartPanel = new JPanel();
+                      int numberOfGroceries = c.getItemsAdded().size(); // number of carts customer had ;
+                     cartPanel.setLayout(new GridLayout(numberOfGroceries, 1));
+                    
+                        
                     for (GroceryItems g : c.getItemsAdded().keySet()) {
 
-                        JPanel cartPanelContainer = new JPanel();
+                      JPanel cartPanelContainer = new JPanel();
+                        
                         cartPanelContainer.setLayout(new GridLayout(4, 1));
 
                         cartPanelContainer.add(new JLabel("Purchase Date : " + data.getUserAccount().getOrderHistory().getOrderHistory().get(c), SwingConstants.CENTER));

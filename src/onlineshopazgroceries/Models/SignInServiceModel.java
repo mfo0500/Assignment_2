@@ -53,6 +53,7 @@ public class SignInServiceModel extends Observable implements IsValid {
     }
 
     public void checkCreatedAdminAccount(String createdUsername, String createdPassword, String confirmedPassword, String createdEmployeeID) {
+       data.setCreateAdminAccountRequested(true);
         setState("Create username");
         if (!IsValid(createdUsername)) {
             
@@ -84,7 +85,9 @@ public class SignInServiceModel extends Observable implements IsValid {
                         data.setAccountCreated(false);
                         
 
-                    } else {
+                    }
+                    if(createdPassword.equals(confirmedPassword))
+                    {
                         this.data = this.database.validateCreatedAdminAccount(createdUsername, createdPassword, createdEmployeeID);
 
                     }
@@ -99,6 +102,7 @@ public class SignInServiceModel extends Observable implements IsValid {
     }
     
     public void checkCreatedCustomerAccount(String createdUsername, String createdPassword, String confirmedPassword) {
+        data.setCreateCustomerAccountRequested(true);
         setState("Create username");
         if (!IsValid(createdUsername)) {
             data.setNeverFailedCreatingAccount(false);
@@ -122,7 +126,9 @@ public class SignInServiceModel extends Observable implements IsValid {
                     data.setReasonAccountCreationFailed(data.getReasonAccountCreationFailed()+"Passwords do not match.\n");
                     data.setAccountCreated(false);
                     // passwords do not match 
-                } else {
+                }
+                if(createdPassword.equals(confirmedPassword))
+                {
                     // differentiate between creating admin account and customer account, customers can have employee ID blank 
                   
                         this.data = this.database.validateCreatedCustomerAccount(createdUsername, createdPassword);

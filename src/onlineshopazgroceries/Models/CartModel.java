@@ -155,6 +155,7 @@ public class CartModel extends Observable implements IsValid {
         this.data.setNeverPressedMainMenuButton(false);
         this.data.setListOfGroceries(this.database.loadGroceries());
         this.data = this.database.loadUserCart(data);
+        this.data = this.database.loadOrderHistory(data);
         this.data.setCartUpdated(false);
         this.data.setAttemptingSearch(false);
         this.data.setItemQuantityModified(false);
@@ -171,6 +172,8 @@ public class CartModel extends Observable implements IsValid {
         this.data.setRequestingToRemoveItem(false);
         this.data.setViewCartRequested(false);
         this.data.setItemAddedToCart(false);
+        this.data.setPurchaseRequested(false);
+        this.data.setPurcahseSucessful(false);
             
        this.setChanged();
         this.notifyObservers(this.data);     

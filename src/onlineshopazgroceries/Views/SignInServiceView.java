@@ -45,7 +45,7 @@ public class SignInServiceView extends JFrame implements Observer {
     private JLabel storeTitle = new JLabel("WELCOME TO THE AZGROCERIES ONLINE STORE", SwingConstants.CENTER);
     private JLabel usernameLabel = new JLabel("Enter Username:", SwingConstants.CENTER);
     private JLabel passwordLabel = new JLabel("Enter Password:", SwingConstants.CENTER);
-    private JLabel employeeIDLabel = new JLabel("Enter Employee ID:", SwingConstants.CENTER);
+    private JLabel employeeIDLabel = new JLabel("Enter Employee ID: (for employees only)", SwingConstants.CENTER);
     private JTextField usernameTextField = new JTextField();
     private JTextField passwordTextField = new JTextField();
     private JTextField employeeIDTextField = new JTextField();
@@ -73,7 +73,6 @@ public class SignInServiceView extends JFrame implements Observer {
 
     private JLabel createAccountStatus = new JLabel("Press \"Create Account\" to continue.", SwingConstants.CENTER);
 
-    private JButton signInButton_afterAccountCreation = new JButton("Go to Sign In page");
 
     public SignInServiceView() {
         
@@ -133,7 +132,7 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double halfHeight = size.getHeight()/2;
         int halfWidthInteger = (int)halfWidth;
         int halfHeightInteger = (int)halfHeight;
-        this.setLocation(halfWidthInteger - 800, halfHeightInteger - 200);
+        this.setLocation(halfWidthInteger - 400, halfHeightInteger - 100);
         
         this.getContentPane().removeAll();
         getTitlePanel().add(getStoreTitle());
@@ -254,7 +253,7 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double halfHeight = size.getHeight()/2;
         int halfWidthInteger = (int)halfWidth;
         int halfHeightInteger = (int)halfHeight;
-        this.setLocation(halfWidthInteger, halfHeightInteger);
+        this.setLocation(halfWidthInteger - 400, halfHeightInteger - 100);
         
         getTitlePanel().add(getStoreTitle());
         add(getTitlePanel(), BorderLayout.NORTH);
@@ -267,11 +266,6 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
         add(accountCreationSucessfulPanel, BorderLayout.CENTER);
 
-        JPanel southPanel = new JPanel();
-
-        southPanel.add(getSignInButton_afterAccountCreation());
-
-        add(southPanel, BorderLayout.SOUTH);
 
         setVisible(true);
         this.revalidate();
@@ -288,7 +282,6 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         getOfficialCreateAdminAccountButton().addActionListener(actionListener);
         getOfficialCreateCustomerAccountButton().addActionListener(actionListener);
 
-        getSignInButton_afterAccountCreation().addActionListener(actionListener);
     }
 
     @Override
@@ -303,7 +296,7 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
             this.getLoginStatus().setText("Incorrect username or password.");
 
         }
-        if (data.isCreateAccountRequested()) {
+        if (data.isCreateAccountRequested() && !data.isAccountCreated()) {
             this.DisplayCreateAccountOptionsPage();
             if (data.isCreateCustomerAccountRequested()) {
                 this.DisplayCreateCustomerAccountPage();
@@ -878,19 +871,5 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.createAccountStatus = createAccountStatus;
     }
 
-    /**
-     * @return the signInButton_afterAccountCreation
-     */
-    public JButton getSignInButton_afterAccountCreation() {
-        return signInButton_afterAccountCreation;
-    }
-
-    /**
-     * @param signInButton_afterAccountCreation the
-     * signInButton_afterAccountCreation to set
-     */
-    public void setSignInButton_afterAccountCreation(JButton signInButton_afterAccountCreation) {
-        this.signInButton_afterAccountCreation = signInButton_afterAccountCreation;
-    }
 
 }

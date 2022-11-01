@@ -61,16 +61,21 @@ public class CheckoutServiceView extends JFrame implements Observer {
     private JLabel cardExpiryYearLabel = new JLabel("Select Card Expiry Year ", SwingConstants.CENTER);
     private JTextField cardNumberTextField = new JTextField();
     private JTextField cardholderNameTextField = new JTextField();
-    private JButton purchaseButton = new JButton("Purchase");
+    
     private JComboBox cardExpiryMonthCombobox = new JComboBox();
     private JComboBox cardExpiryYearCombobox = new JComboBox();
     private JLabel cardCVCLabel = new JLabel("Enter Card CVC: ", SwingConstants.CENTER);
     private JTextField cardCVCTextField = new JTextField();
     
+    
+    
     private JButton returnBackToMainMenuButton = new JButton("Return Back To Main Menu");
+    private JButton buyButton = new JButton("Purchase");
 
     private JPanel titlePanel = new JPanel();
     private JPanel purchaseInformationPanel = new JPanel();
+    
+    private JLabel reasonBuyFailed = new JLabel("", SwingConstants.CENTER);
 
     public CheckoutServiceView() {
         this.getContentPane().removeAll();
@@ -88,14 +93,15 @@ public class CheckoutServiceView extends JFrame implements Observer {
     
     public void displayCheckoutRequirements()
     {
+         this.getContentPane().removeAll();
          Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double halfWidth = size.getWidth() / 2;
         int halfWidthInteger = (int) halfWidth;
         double halfHeight = size.getHeight() / 2;
         int halfHeightInteger = (int) halfHeight;
-        this.setLocation(halfWidthInteger - 300, halfHeightInteger - 175);
+        this.setLocation(halfWidthInteger - 300, halfHeightInteger - 190);
         
-        this.setSize(600, 350);
+        this.setSize(600, 380);
         getTitlePanel().setBackground(Color.CYAN.brighter());
         getTitlePanel().removeAll();
         getTitlePanel().setLayout(new GridLayout(3, 1));
@@ -112,7 +118,7 @@ public class CheckoutServiceView extends JFrame implements Observer {
                 
         add(getTitlePanel(), BorderLayout.NORTH);
 
-        getPurchaseInformationPanel().setLayout(new GridLayout(6, 2));
+        getPurchaseInformationPanel().setLayout(new GridLayout(7, 2));
 
         getPickupCheckBox().setSelected(true);
         getDeliveryCheckBox().setSelected(false);
@@ -150,27 +156,80 @@ public class CheckoutServiceView extends JFrame implements Observer {
         getPurchaseInformationPanel().add(getCardExpiryYearCombobox());
         getPurchaseInformationPanel().add(getCardCVCLabel());
         getPurchaseInformationPanel().add(getCardCVCTextField());
+        getPurchaseInformationPanel().add(getCardholderNameLabel());
+        getPurchaseInformationPanel().add(getCardholderNameTextField());
 
+         add(getPurchaseInformationPanel(), BorderLayout.CENTER);
+         
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new GridLayout(2, 1));
         JPanel purchasePanel = new JPanel();
-        purchasePanel.add(getPurchaseButton());
+        purchasePanel.add(getBuyButton());
 
-        add(getPurchaseInformationPanel(), BorderLayout.CENTER);
-        add(purchasePanel, BorderLayout.SOUTH);
+
+        southPanel.add(getReasonBuyFailed());
+       southPanel.add(purchasePanel);
+       add(southPanel, BorderLayout.SOUTH);
 
         setVisible(true);
         this.revalidate();
         this.repaint();
     }
 
+    public void displaySuccessfulPurchase()
+    {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        double halfWidth = size.getWidth() / 2;
+        int halfWidthInteger = (int) halfWidth;
+        double halfHeight = size.getHeight() / 2;
+        int halfHeightInteger = (int) halfHeight;
+        this.setLocation(halfWidthInteger - 300, halfHeightInteger - 180);
+        
+        this.setSize(600, 360);
+        getTitlePanel().setBackground(Color.CYAN.brighter());
+        getTitlePanel().removeAll();
+        getTitlePanel().setLayout(new GridLayout(3, 1));
+        getTitlePanel().add(getStoreTitle());
+        
+        
+          
+        getTitlePanel().add(new JLabel("Purchase Sucessful", SwingConstants.CENTER));
+        
+        
+        JPanel backToMainMenuButtonPanel = new JPanel();
+        
+        backToMainMenuButtonPanel.add(getReturnBackToMainMenuButton());
+        
+         getTitlePanel().add(backToMainMenuButtonPanel);
+                
+        add(getTitlePanel(), BorderLayout.NORTH);
+        
+        
+        setVisible(true);
+        this.revalidate();
+        this.repaint();
+        
+    }
+    
+    
     public void addActionListener(ActionListener actionListener) {
 
-        getPurchaseButton().addActionListener(actionListener);
+        getBuyButton().addActionListener(actionListener);
         getReturnBackToMainMenuButton().addActionListener(actionListener);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         ShopData data = (ShopData)arg;
+        if(data.isPurcahseSucessful() && data.isPurchaseRequested())
+        {
+            this.displaySuccessfulPurchase();
+        }
+        if(!data.isPurcahseSucessful() && data.isPurchaseRequested())
+        {
+            getReasonBuyFailed().setText( data.getReasonPurchaseFailed());
+            this.displayCheckoutRequirements();
+        }
         if(data.isMainMenuRequested())
         {
             data.setMainMenuRequested(false);
@@ -519,20 +578,6 @@ public class CheckoutServiceView extends JFrame implements Observer {
     }
 
     /**
-     * @return the purchaseButton
-     */
-    public JButton getPurchaseButton() {
-        return purchaseButton;
-    }
-
-    /**
-     * @param purchaseButton the purchaseButton to set
-     */
-    public void setPurchaseButton(JButton purchaseButton) {
-        this.purchaseButton = purchaseButton;
-    }
-
-    /**
      * @return the cardExpiryMonthCombobox
      */
     public JComboBox getCardExpiryMonthCombobox() {
@@ -642,6 +687,34 @@ public class CheckoutServiceView extends JFrame implements Observer {
      */
     public void setCartTotalLabel(JLabel cartTotalLabel) {
         this.cartTotalLabel = cartTotalLabel;
+    }
+
+    /**
+     * @return the buyButton
+     */
+    public JButton getBuyButton() {
+        return buyButton;
+    }
+
+    /**
+     * @param buyButton the buyButton to set
+     */
+    public void setBuyButton(JButton buyButton) {
+        this.buyButton = buyButton;
+    }
+
+    /**
+     * @return the reasonBuyFailed
+     */
+    public JLabel getReasonBuyFailed() {
+        return reasonBuyFailed;
+    }
+
+    /**
+     * @param reasonBuyFailed the reasonBuyFailed to set
+     */
+    public void setReasonBuyFailed(JLabel reasonBuyFailed) {
+        this.reasonBuyFailed = reasonBuyFailed;
     }
 
 }

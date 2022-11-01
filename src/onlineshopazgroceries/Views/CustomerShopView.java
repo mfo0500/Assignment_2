@@ -332,7 +332,7 @@ public class CustomerShopView extends JFrame implements Observer {
             }
              CustomerShopView view = data.getCustomerShopview();
               view.data = data;
-                    view.getWelcomeMessage().setText(getWelcomeMessage().getText() + ", you are ready to shop!");
+                    view.getWelcomeMessage().setText(data.getUserAccount().getUsername() + ", you are ready to shop!");
                     view.setAllAddItemButtons(addButtons);
                     view.setAllMinusButtons(minusButtons);
                     view.setAllPlusButtons(plusButtons);
@@ -427,7 +427,7 @@ public class CustomerShopView extends JFrame implements Observer {
                     plusButtons.add(plusButton);
                     saveButtons.add(saveButton);
                     quantityToPurchaseTextFields.add(quantityTextField);
-                    currentPriceForQuantityLabels.add(cartPurchaseQuantityLabel);
+                    currentPriceForQuantityLabels.add(priceForQuantityLabel);
 
                     cartPanelContainer.add(cartOptionsPanel);
                     cartPanel.add(cartPanelContainer);
@@ -486,6 +486,9 @@ public class CustomerShopView extends JFrame implements Observer {
                 for (Cart c : data.getUserAccount().getOrderHistory().getOrderHistory().keySet()) {
 
                     JPanel cartPanel = new JPanel();
+                   int numberOfGroceries = c.getItemsAdded().size(); // number of carts customer had ;
+
+                    cartPanel.setLayout(new GridLayout(numberOfGroceries, 1));
                     for (GroceryItems g : c.getItemsAdded().keySet()) {
 
                         JPanel cartPanelContainer = new JPanel();

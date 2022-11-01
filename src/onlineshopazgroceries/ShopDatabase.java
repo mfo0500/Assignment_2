@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author krist
  */
 public class ShopDatabase {
-    
+
     Connection conn = null;
     String url = "jdbc:derby:AZGroceriesDatabase;create=true";  //url of the DB host
 
@@ -30,14 +30,14 @@ public class ShopDatabase {
         try {
             conn = DriverManager.getConnection(url, dbusername, dbpassword);
             Statement statement = conn.createStatement();
-            
+
             if (!checkTableExisting("Table_of_Customer_Accounts")) {
                 statement.addBatch("CREATE TABLE Table_of_Customer_Accounts (username VARCHAR(50), password VARCHAR(50))");
                 statement.addBatch(" INSERT INTO Table_of_Customer_Accounts VALUES ('Rob21', 'Umbrella22'), \n"
                         + "('Eric23', 'Happy78'), \n"
                         + "('Water38', 'Queen67') \n");
                 statement.executeBatch();
-                
+
             }
             //statement.close();
 
@@ -78,17 +78,17 @@ public class ShopDatabase {
                 statement.executeBatch();
             }
             statement.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error - Setup of database");
-            
+
         }
-        
+
     }
-    
+
     public ArrayList<CustomerAccount> getCustomerAccountsList() {
-        
+
         ArrayList<CustomerAccount> customerAccounts = new ArrayList<CustomerAccount>();
         try {
             conn = DriverManager.getConnection(url, dbusername, dbpassword);
@@ -100,17 +100,17 @@ public class ShopDatabase {
                 CustomerAccount customerAccount = new CustomerAccount(username, password);
                 customerAccounts.add(customerAccount);
             }
-            
+
         } catch (Throwable e) {
             System.out.println("error Creating Customer accounts table ");
-            
+
         }
         return customerAccounts;
-        
+
     }
-    
+
     public ArrayList<AdminAccount> getAdminAccountsList() {
-        
+
         ArrayList<AdminAccount> adminAccounts = new ArrayList<AdminAccount>();
         try {
             conn = DriverManager.getConnection(url, dbusername, dbpassword);
@@ -123,15 +123,15 @@ public class ShopDatabase {
                 AdminAccount adminAccount = new AdminAccount(username, password, employeeID);
                 adminAccounts.add(adminAccount);
             }
-            
+
         } catch (Throwable e) {
             System.out.println("error Creating Customer accounts table ");
-            
+
         }
         return adminAccounts;
-        
+
     }
-    
+
     public ListOfGroceries loadGroceries() {
         ListOfGroceries groceryList = new ListOfGroceries();
         try {
@@ -143,25 +143,25 @@ public class ShopDatabase {
                 double productPrice = rs.getDouble("price");
                 String productCategory = rs.getString("catagory");
                 int productQuantityAvailable = rs.getInt("quantity");
-                
+
                 GroceryItems newItem = new GroceryItems(productName, productPrice, productCategory, productQuantityAvailable);
                 groceryList.getGroceries().add(newItem);
-                
+
             }
-            
+
         } catch (Throwable e) {
             System.out.println("error Creating List of Groceries");
-            
+
         }
         return groceryList;
     }
-    
+
     private boolean checkTableExisting(String newTableName) {
         boolean flag = false;
         try {
-            
+
             Statement statement = this.conn.createStatement();
-            
+
             String[] types = {"TABLE"};
             DatabaseMetaData dbmd = conn.getMetaData();
             ResultSet rsDBMeta = dbmd.getTables(null, null, null, null);//types);
@@ -180,9 +180,9 @@ public class ShopDatabase {
         }
         return flag;
     }
-    
-    public void addTransaction(String usernameOfCustomer, String purchaseDate, GroceryItems groceryItemPurchased, int quantityPurchased) {
-        
+
+    public ShopData addTransaction(ShopData originalData, String usernameOfCustomer, String purchaseDate, GroceryItems groceryItemPurchased, int quantityPurchased) {
+        ShopData data = originalData;
         Statement statement;
         try {
             statement = conn.createStatement();
@@ -190,22 +190,31 @@ public class ShopDatabase {
             double productPrice = groceryItemPurchased.getPrice();
             String productCategory = groceryItemPurchased.getCategory();
             int quantityAvailable = groceryItemPurchased.getQuantityAvailable();
+
+            int updatedQuantity = quantityAvailable - quantityPurchased;
+//                statement.addBatch("CREATE TABLE Transaction_table (customerUsername VARCHAR(50), purchaseDate VARCHAR(10), productName VARCHAR(50), productPrice FLOAT(25), productCategory VARCHAR(50), productQuantityAvailable INT, quantityPurchased INT)");
+
             statement.executeUpdate("INSERT INTO Transaction_table "
-                    + "VALUES('" + usernameOfCustomer + "', '" + purchaseDate + "', " + productName + "', " + productPrice + ", " + productCategory + ", " + quantityAvailable + ", " + quantityPurchased + " )");
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+                    + "VALUES('" + usernameOfCustomer + "', '" + purchaseDate + "', '" + productName + "', " + productPrice + ", '" + productCategory + "', " + quantityAvailable + ", " + quantityPurchased + " )");
+
+            statement.executeUpdate("DELETE FROM EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = '" + usernameOfCustomer + "' AND PRODUCTNAME = '" + productName + "'");
+
+            statement.executeUpdate("UPDATE TABLE_OF_GROCERY_ITEMS SET \"QUANTITY\" = " + updatedQuantity + " WHERE PRODUCTNAME = '" + productName + "'");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("error - adding transaction to database");
         }
-        
+        return data;
     }
-    
+
     public ShopData addGroceryItem(ShopData originalData, String productName, double productPrice, String productCategory, int quantityAvailable) {
-        
+
         ShopData data = originalData;
         Statement statement;
         try {
             statement = conn.createStatement();
-            
+
             boolean groceryItemExists = false;
             ResultSet productNameResultSet = statement.executeQuery("SELECT productName FROM Table_of_Grocery_Items ");
             while (productNameResultSet.next()) {
@@ -217,70 +226,70 @@ public class ShopDatabase {
                     // give user message that account already exists
                     data.setItemAdded(false);
                     data.setReasonItemAdditionFailed("Product already exists");
-                    
+
                 }
-                
+
             }
             if (groceryItemExists == false) {
                 statement.executeUpdate("INSERT INTO Table_of_Grocery_Items "
                         + "VALUES('" + productName + "', " + productPrice + ", '" + productCategory + "', " + quantityAvailable + " )");
-                
+
                 GroceryItems newItem = new GroceryItems(productName, productPrice, productCategory, quantityAvailable);
                 data.getListOfGroceries().getGroceries().add(newItem);
                 data.setGroceryItemAdded(newItem);
                 data.setItemAdded(true);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return data;
-        
+
     }
-    
+
     public ShopData removeGroceryItem(ShopData originalData, String productName) {
         ShopData data = originalData;
         Statement statement;
         try {
             statement = conn.createStatement();
-            
+
             statement.executeUpdate("DELETE FROM TABLE_OF_GROCERY_ITEMS WHERE PRODUCTNAME = '" + productName + "'");
-            
+
             data.setItemRemoved(true);
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return data;
-        
+
     }
-    
+
     public ShopData modifyGroceryItemQuantity(ShopData originalData, String productNameOfModifiedGroceryItem, int modifiedQuantityAvailable, int numberOfGroceryItemModified) {
         ShopData data = originalData;
         Statement statement;
-        
+
         try {
             statement = conn.createStatement();
-            
+
             statement.executeUpdate("UPDATE TABLE_OF_GROCERY_ITEMS SET \"QUANTITY\" = " + modifiedQuantityAvailable + " WHERE PRODUCTNAME = '" + productNameOfModifiedGroceryItem + "'");
-            
+
             data.getListOfGroceries().getGroceries().get(numberOfGroceryItemModified).setQuantityAvailable(modifiedQuantityAvailable);
             data.setModifiedGroceryItem(data.getListOfGroceries().getGroceries().get(numberOfGroceryItemModified));
             data.setItemQuantityModified(true);
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return data;
         // UPDATE TABLE_OF_GROCERY_ITEMS SET "QUANTITY" = 20 WHERE PRODUCTNAME = 'Potatoes';
 
     }
-    
+
     public ShopData loadUserCart(ShopData originalData) {
         ShopData data = originalData;
         Statement statement;
-        
+
         try {
             statement = conn.createStatement();
             data.getUserAccount().getUserCart().getItemsAdded().clear();
@@ -291,50 +300,124 @@ public class ShopDatabase {
 
                 String productName = cartEntryResultSet.getString("productName");
                 double productPrice = cartEntryResultSet.getDouble("productPrice");
-                String productCategory = cartEntryResultSet.getString("productCategory");                
+                String productCategory = cartEntryResultSet.getString("productCategory");
                 int productQuantityAvailable = cartEntryResultSet.getInt("productQuantityAvailable");
                 int quantityAdded = cartEntryResultSet.getInt("quantityPurchased");
                 GroceryItems groceryItemAddedToCart = new GroceryItems(productName, productPrice, productCategory, productQuantityAvailable);
-                
+
                 GroceryItems originalGroceryItem = null;
-                for (GroceryItems g :data.getUserAccount().getUserCart().getItemsAdded().keySet() )
-                {
-                    if(g.getProductName().equals(groceryItemAddedToCart.getProductName()))
-                    {
+                for (GroceryItems g : data.getUserAccount().getUserCart().getItemsAdded().keySet()) {
+                    if (g.getProductName().equals(groceryItemAddedToCart.getProductName())) {
                         originalGroceryItem = g;
                     }
                 }
                 if (data.getUserAccount().getUserCart().getItemsAdded().containsKey(originalGroceryItem)) {
-                    
-                int originalQuantity =  data.getUserAccount().getUserCart().getItemsAdded().get(originalGroceryItem);
-                int updatedQuantity = quantityAdded + originalQuantity;
-                
-                    data.getUserAccount().getUserCart().getItemsAdded().replace( originalGroceryItem, updatedQuantity);
+
+                    int originalQuantity = data.getUserAccount().getUserCart().getItemsAdded().get(originalGroceryItem);
+                    int updatedQuantity = quantityAdded + originalQuantity;
+
+                    data.getUserAccount().getUserCart().getItemsAdded().replace(originalGroceryItem, updatedQuantity);
                     data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + quantityAdded * groceryItemAddedToCart.getPrice());
                 } else {
                     data.getUserAccount().getUserCart().getItemsAdded().put(groceryItemAddedToCart, quantityAdded);
                     data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + quantityAdded * groceryItemAddedToCart.getPrice());
-                    
+
                 }
-                
-                
-                
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return data;
-        
+
     }
-    
+
+    public ShopData loadOrderHistory(ShopData originalData) {
+        ShopData data = originalData;
+        Statement statement;
+
+        try {
+            statement = conn.createStatement();
+            data.getUserAccount().getOrderHistory().getOrderHistory().clear();
+            ResultSet cartEntryResultSet = statement.executeQuery("SELECT * FROM Transaction_table WHERE customerUsername = '" + data.getUserAccount().getUsername() + "'");
+//                 statement.addBatch("CREATE TABLE Transaction_table (customerUsername VARCHAR(50), purchaseDate VARCHAR(10), productName VARCHAR(50), productPrice FLOAT(25), productCategory VARCHAR(50), productQuantityAvailable INT, quantityPurchased INT)");
+
+            while (cartEntryResultSet.next()) {
+
+                String productName = cartEntryResultSet.getString("productName");
+                double productPrice = cartEntryResultSet.getDouble("productPrice");
+                String purchaseDate = cartEntryResultSet.getString("purchaseDate");
+                String productCategory = cartEntryResultSet.getString("productCategory");
+                int productQuantityAvailable = cartEntryResultSet.getInt("productQuantityAvailable");
+                int quantityAdded = cartEntryResultSet.getInt("quantityPurchased");
+
+                GroceryItems groceryItemAddedToOrderHistory = new GroceryItems(productName, productPrice, productCategory, productQuantityAvailable);
+                Cart cartAddedToOrderHistory = new Cart();
+
+                cartAddedToOrderHistory.getItemsAdded().put(groceryItemAddedToOrderHistory, quantityAdded);
+
+                OrderHistory OrderHistoryEntry = new OrderHistory();
+
+                OrderHistoryEntry.getOrderHistory().put(cartAddedToOrderHistory, purchaseDate);
+
+                Cart originalcart = null;
+                for (Cart c : data.getUserAccount().getOrderHistory().getOrderHistory().keySet()) // get original carts
+                {
+                    if (OrderHistoryEntry.getOrderHistory().get(cartAddedToOrderHistory).equals(data.getUserAccount().getOrderHistory().getOrderHistory().get(c))) // if the purchase date is same, the original cart is saved
+                    {
+                        originalcart = c;
+                    }
+                }
+                if (data.getUserAccount().getOrderHistory().getOrderHistory().containsKey(originalcart)) { // if the purchase date is same update cart
+
+                    String samePurchaseDate = data.getUserAccount().getOrderHistory().getOrderHistory().get(originalcart);
+
+                    GroceryItems originalGroceryItem = null;
+
+                    for (GroceryItems g : originalcart.getItemsAdded().keySet()) {
+                        if (g.getProductName().equals(groceryItemAddedToOrderHistory.getProductName())) // if the grocery item is not unique update grocery item purchased quantiity in cart
+                        {
+                            originalGroceryItem = g;
+                        }
+                    }
+
+                    if (originalcart.getItemsAdded().containsKey(originalGroceryItem)) // if grocery item in entry is unique add to order history
+                    {
+
+                        int originalQuantity = originalcart.getItemsAdded().get(originalGroceryItem);
+                        int updatedQuantity = quantityAdded + originalQuantity;
+
+                        originalcart.getItemsAdded().replace(originalGroceryItem, updatedQuantity);
+                        originalcart.setTotal(originalcart.getTotal() + quantityAdded * groceryItemAddedToOrderHistory.getPrice());
+
+                        data.getUserAccount().getOrderHistory().getOrderHistory().replace(originalcart, purchaseDate);
+                    } else {
+                        originalcart.getItemsAdded().put(groceryItemAddedToOrderHistory, quantityAdded);
+                        originalcart.setTotal(originalcart.getTotal() + quantityAdded * groceryItemAddedToOrderHistory.getPrice());
+                        data.getUserAccount().getOrderHistory().getOrderHistory().put(originalcart, purchaseDate);
+                    }
+
+                } else {
+                    data.getUserAccount().getOrderHistory().getOrderHistory().put(cartAddedToOrderHistory, purchaseDate);
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("error - loading order history from database");
+        }
+
+        return data;
+    }
+
     public ShopData addGroceryItemToCart(ShopData originalData, String customerUsername, GroceryItems groceryItemRequested, int quantityAddedToCart) {
         ShopData data = originalData;
         Statement statement;
         try {
             statement = conn.createStatement();
-            
+
             String productName = groceryItemRequested.getProductName();
             double productPrice = groceryItemRequested.getPrice();
             String productCategory = groceryItemRequested.getCategory();
@@ -345,14 +428,14 @@ public class ShopDatabase {
 //            data.getUserAccount().getUserCart().getItemsAdded().put(groceryItemRequested, quantityAddedToCart);
 //            data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + quantityAddedToCart * groceryItemRequested.getPrice());
 //            
-            
+
             if (data.getUserAccount().getUserCart().getItemsAdded().containsKey(groceryItemRequested)) {
                 data.getUserAccount().getUserCart().getItemsAdded().replace(groceryItemRequested, quantityAddedToCart + data.getUserAccount().getUserCart().getItemsAdded().get(groceryItemRequested));
                 data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + quantityAddedToCart * groceryItemRequested.getPrice());
             } else {
                 data.getUserAccount().getUserCart().getItemsAdded().put(groceryItemRequested, quantityAddedToCart);
                 data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + quantityAddedToCart * groceryItemRequested.getPrice());
-                
+
             }
             data.setQuantityOfProductAddedToCart(quantityAddedToCart);
             data.setItemAddedToCart(true);
@@ -360,65 +443,62 @@ public class ShopDatabase {
             e.printStackTrace();
             System.out.println("error - adding Cart entry to database");
         }
-        
+
         return data;
-        
+
     }
-    
+
     public ShopData removeGroceryItemFromCart(ShopData originalData, String customerUsername, GroceryItems groceryItemRequestedToRemove, int quantityAddedToCart) {
         ShopData data = originalData;
         Statement statement;
         try {
             statement = conn.createStatement();
-            
-            String productName = groceryItemRequestedToRemove.getProductName();
-            statement.executeUpdate("DELETE FROM EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = '"+ customerUsername+"' AND PRODUCTNAME = '" + productName+"'");
-            
-            // DELETE FROM PDC.EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = 'Water38' AND PRODUCTNAME = 'Apples' AND PRODUCTPRICE = 2.99 AND PRODUCTCATEGORY = 'Fruits' AND PRODUCTQUANTITYAVAILABLE = 26 AND QUANTITYPURCHASED = 1;
 
-           data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() - groceryItemRequestedToRemove.getPrice() * quantityAddedToCart);
-           data.getUserAccount().getUserCart().getItemsAdded().remove(groceryItemRequestedToRemove);
-            
+            String productName = groceryItemRequestedToRemove.getProductName();
+            statement.executeUpdate("DELETE FROM EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = '" + customerUsername + "' AND PRODUCTNAME = '" + productName + "'");
+
+            // DELETE FROM PDC.EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = 'Water38' AND PRODUCTNAME = 'Apples' AND PRODUCTPRICE = 2.99 AND PRODUCTCATEGORY = 'Fruits' AND PRODUCTQUANTITYAVAILABLE = 26 AND QUANTITYPURCHASED = 1;
+            data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() - groceryItemRequestedToRemove.getPrice() * quantityAddedToCart);
+            data.getUserAccount().getUserCart().getItemsAdded().remove(groceryItemRequestedToRemove);
+
             data.setItemRemovedFromCart(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error - removing Cart entry from database");
         }
-        
+
         return data;
-        
+
     }
-    
-    public ShopData updateCart(ShopData originalData, String customerUsername ,  GroceryItems updatedCartItem, int updatedQuantityToPurchase)
-    {
-          ShopData data = originalData;
-           Statement statement;
-          try {
+
+    public ShopData updateCart(ShopData originalData, String customerUsername, GroceryItems updatedCartItem, int updatedQuantityToPurchase) {
+        ShopData data = originalData;
+        Statement statement;
+        try {
             statement = conn.createStatement();
-            
+
             String productName = updatedCartItem.getProductName();
             double productPrice = updatedCartItem.getPrice();
             String productCategory = updatedCartItem.getCategory();
             int quantityAvailable = updatedCartItem.getQuantityAvailable();
             int originalProductPurchaseQuantity = data.getUserAccount().getUserCart().getItemsAdded().get(updatedCartItem);
             int changeInProductQuantity = updatedQuantityToPurchase - originalProductPurchaseQuantity;
-            
-            
-           statement.executeUpdate("DELETE FROM EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = '"+ customerUsername+"' AND PRODUCTNAME = '" + productName+"'");
-           statement.executeUpdate("INSERT INTO Existing_Cart_Entries "
+
+            statement.executeUpdate("DELETE FROM EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = '" + customerUsername + "' AND PRODUCTNAME = '" + productName + "'");
+            statement.executeUpdate("INSERT INTO Existing_Cart_Entries "
                     + "VALUES('" + customerUsername + "', '" + productName + "', " + productPrice + ", '" + productCategory + "', " + quantityAvailable + ", " + updatedQuantityToPurchase + " )");
             // DELETE FROM PDC.EXISTING_CART_ENTRIES WHERE CUSTOMERUSERNAME = 'Water38' AND PRODUCTNAME = 'Apples' AND PRODUCTPRICE = 2.99 AND PRODUCTCATEGORY = 'Fruits' AND PRODUCTQUANTITYAVAILABLE = 26 AND QUANTITYPURCHASED = 1;
 
-         data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + updatedCartItem.getPrice() * changeInProductQuantity);
-         data.getUserAccount().getUserCart().getItemsAdded().replace(updatedCartItem, updatedQuantityToPurchase );
-            
+            data.getUserAccount().getUserCart().setTotal(data.getUserAccount().getUserCart().getTotal() + updatedCartItem.getPrice() * changeInProductQuantity);
+            data.getUserAccount().getUserCart().getItemsAdded().replace(updatedCartItem, updatedQuantityToPurchase);
+
             data.setCartUpdated(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error - updating Cart entry from database");
         }
-          
-         return data; 
+
+        return data;
     }
 
     public ShopData checkLogin(String username, String password, String employeeID) {
@@ -431,7 +511,7 @@ public class ShopDatabase {
                 if (customerResultSet.next()) {
                     String pass = customerResultSet.getString("password");
                     if (password.compareTo(pass) == 0) {
-                        
+
                         ArrayList<CustomerAccount> customerAccounts = getCustomerAccountsList();
                         for (CustomerAccount c : customerAccounts) {
                             if (c.getUsername().equals(username)) {
@@ -441,6 +521,7 @@ public class ShopDatabase {
                         }
                         data.setListOfGroceries(this.loadGroceries());
                         data = this.loadUserCart(data);
+                        data = this.loadOrderHistory(data);
                         data.setSignedIn(true);
 
                         //      data.setUserAccount(userAccount);
@@ -452,37 +533,38 @@ public class ShopDatabase {
             if (!employeeID.equals("")) {
                 ResultSet adminResultSet = statement.executeQuery("SELECT username, password, employeeID FROM Table_of_Admin_Accounts "
                         + "WHERE username = '" + username + "'");
-                
+
                 if (adminResultSet.next()) {
                     String pass = adminResultSet.getString("password");
                     String correctEmployeeID = adminResultSet.getString("employeeID");
                     if (password.compareTo(pass) == 0 && employeeID.equals(correctEmployeeID)) {
-                        
+
                         ArrayList<AdminAccount> adminAccounts = getAdminAccountsList();
                         for (AdminAccount a : adminAccounts) {
                             if (a.getUsername().equals(username)) {
                                 data.setUserAccount(a); // stores the customer account in the ShopData class
                             }
                         }
-                        
+
                         data.setListOfGroceries(this.loadGroceries());
                         data = this.loadUserCart(data);
+                        data = this.loadOrderHistory(data);
                         data.setSignedIn(true);
                     } else {
                         data.setSignedIn(false);
                     }
                 }
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
-    
+
     public ShopData validateCreatedAdminAccount(String createdUsername, String createdPassword, String createdEmployeeID) {
         ShopData data = new ShopData();
-        
+
         try {
             Statement statement = conn.createStatement();
             boolean accountExists = false;
@@ -497,9 +579,9 @@ public class ShopDatabase {
                     data.setNeverFailedCreatingAccount(false);
                     data.setAccountCreated(false);
                     data.setReasonAccountCreationFailed("Username already exists");
-                    
+
                 }
-                
+
             }
             ResultSet adminResultSet = statement.executeQuery("SELECT username FROM Table_of_Admin_Accounts ");
             while (adminResultSet.next()) {
@@ -512,24 +594,25 @@ public class ShopDatabase {
                     data.setNeverFailedCreatingAccount(false);
                     data.setAccountCreated(false);
                     data.setReasonAccountCreationFailed("Username already exists");
-                    
+
                 }
-                
+
             }
             if (accountExists == false) {
                 statement.executeUpdate("INSERT INTO Table_of_Admin_Accounts VALUES ('" + createdUsername + "', '" + createdPassword + "', '" + createdEmployeeID + "')");
+                data.setCreateAdminAccountRequested(true);
                 data.setAccountCreated(true);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }
         return data;
     }
-    
+
     public ShopData validateCreatedCustomerAccount(String createdUsername, String createdPassword) {
         ShopData data = new ShopData();
-        
+
         try {
             Statement statement = conn.createStatement();
             boolean accountExists = false;
@@ -544,11 +627,11 @@ public class ShopDatabase {
                     data.setNeverFailedCreatingAccount(false);
                     data.setAccountCreated(false);
                     data.setReasonAccountCreationFailed("Username already exists");
-                    
+
                 }
-                
+
             }
-            
+
             ResultSet adminResultSet = statement.executeQuery("SELECT username FROM Table_of_Admin_Accounts ");
             while (adminResultSet.next()) {
                 String existingUsername = adminResultSet.getString("username");
@@ -560,15 +643,16 @@ public class ShopDatabase {
                     data.setNeverFailedCreatingAccount(false);
                     data.setAccountCreated(false);
                     data.setReasonAccountCreationFailed("Username already exists");
-                    
+
                 }
-                
+
             }
             if (accountExists == false) {
                 statement.executeUpdate("INSERT INTO Table_of_Customer_Accounts VALUES ('" + createdUsername + "', '" + createdPassword + "')");
+                data.setCreateCustomerAccountRequested(true);
                 data.setAccountCreated(true);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
         }

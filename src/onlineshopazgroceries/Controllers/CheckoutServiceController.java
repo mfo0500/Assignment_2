@@ -29,6 +29,22 @@ public class CheckoutServiceController implements ActionListener {
         String command = e.getActionCommand();
 
         switch (command) {
+            case "Purchase":
+                boolean pickupSelected = this.view.getPickupCheckBox().isSelected();
+                 boolean deliverySelected = this.view.getDeliveryCheckBox().isSelected();
+                String CardNumber = this.view.getCardNumberTextField().getText();
+                
+                int CardExpiryMonth = this.view.getCardExpiryMonthCombobox().getSelectedIndex();
+                
+                String CardExpiryYearString = this.view.getCardExpiryYearCombobox().getSelectedItem().toString();
+                int CardExpiryYear = Integer.parseInt(CardExpiryYearString);
+                
+                 String CVC = this.view.getCardCVCTextField().getText();
+                String CardHolderName = this.view.getCardholderNameTextField().getText();
+
+                this.model.requestToPurchase(pickupSelected, deliverySelected, CardNumber, CardExpiryMonth, CardExpiryYear, CVC, CardHolderName );
+
+                break;
             case "Return Back To Main Menu":
 
                 this.model.requestToReturnToMainMenu();

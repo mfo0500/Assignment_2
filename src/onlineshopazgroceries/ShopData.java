@@ -72,6 +72,10 @@ public class ShopData {
     private CustomerShopController customerShopController;
     private CustomerShopModel customerShopModel;
     private boolean neverPressedMainMenuButton = true;
+    
+    private boolean purchaseRequested = false;
+    private boolean purcahseSucessful = false;
+    private String reasonPurchaseFailed = "";
 
     /**
      * @return the userAccount
@@ -746,6 +750,48 @@ public class ShopData {
      */
     public void setNeverPressedMainMenuButton(boolean neverPressedMainMenuButton) {
         this.neverPressedMainMenuButton = neverPressedMainMenuButton;
+    }
+
+    /**
+     * @return the purchaseRequested
+     */
+    public boolean isPurchaseRequested() {
+        return purchaseRequested;
+    }
+
+    /**
+     * @param purchaseRequested the purchaseRequested to set
+     */
+    public void setPurchaseRequested(boolean purchaseRequested) {
+        this.purchaseRequested = purchaseRequested;
+    }
+
+    /**
+     * @return the purcahseSucessful
+     */
+    public boolean isPurcahseSucessful() {
+        return purcahseSucessful;
+    }
+
+    /**
+     * @param purcahseSucessful the purcahseSucessful to set
+     */
+    public void setPurcahseSucessful(boolean purcahseSucessful) {
+        this.purcahseSucessful = purcahseSucessful;
+    }
+
+    /**
+     * @return the reasonPurchaseFailed
+     */
+    public String getReasonPurchaseFailed() {
+        return reasonPurchaseFailed;
+    }
+
+    /**
+     * @param reasonPurchaseFailed the reasonPurchaseFailed to set
+     */
+    public void setReasonPurchaseFailed(String reasonPurchaseFailed) {
+        this.reasonPurchaseFailed = reasonPurchaseFailed;
     }
 
 }
