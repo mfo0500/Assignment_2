@@ -51,7 +51,6 @@ public class SignInServiceView extends JFrame implements Observer {
     private JTextField employeeIDTextField = new JTextField();
     private JButton signInButton = new JButton("Sign in");
     private JButton createAccountButton = new JButton("Create Account");
-    private JButton continueAsGuestButton = new JButton("Continue as Guest");
     private JPanel signInPanel = new JPanel();
 
     private JLabel loginStatus;
@@ -116,7 +115,6 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         JPanel southPanel = new JPanel();
         southPanel.add(getSignInButton());
         southPanel.add(getCreateAccountButton());
-        southPanel.add(getContinueAsGuestButton());
 
         setLoginStatus(new JLabel("Press \"Sign in\" to continue.", SwingConstants.CENTER));
 
@@ -127,18 +125,6 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         repaint();
     }
 
-    public void DisplayGuestShop() {
-        this.getContentPane().removeAll();
-        getTitlePanel().setLayout(new GridLayout(2, 1));
-        getTitlePanel().add(getStoreTitle());
-        getTitlePanel().add(getWelcomeMessage());
-        add(getTitlePanel(), BorderLayout.NORTH);
-
-        //   add(getGroceryItemDisplayPanel(), BorderLayout.SOUTH);
-        setVisible(true);
-        this.revalidate();
-        this.repaint();
-    }
 
     public void DisplayCreateAccountOptionsPage() {
         
@@ -295,7 +281,6 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
     public void addActionListener(ActionListener actionListener) {
         getSignInButton().addActionListener(actionListener);
         getCreateAccountButton().addActionListener(actionListener);
-        getContinueAsGuestButton().addActionListener(actionListener);
 
         getCreateCustomerAccountButton().addActionListener(actionListener);
         getCreateAdminAccountButton().addActionListener(actionListener);
@@ -521,9 +506,7 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
                     data.setAdminShopView(view);
                 }
             } else {
-                setWelcomeMessage(new JLabel("Welcome, User", SwingConstants.CENTER));
-
-                this.DisplayGuestShop();
+                
             }
         }
     }
@@ -682,19 +665,6 @@ Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.createAccountButton = createAccountButton;
     }
 
-    /**
-     * @return the continueAsGuestButton
-     */
-    public JButton getContinueAsGuestButton() {
-        return continueAsGuestButton;
-    }
-
-    /**
-     * @param continueAsGuestButton the continueAsGuestButton to set
-     */
-    public void setContinueAsGuestButton(JButton continueAsGuestButton) {
-        this.continueAsGuestButton = continueAsGuestButton;
-    }
 
     /**
      * @return the titlePanel
