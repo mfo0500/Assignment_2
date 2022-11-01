@@ -13,11 +13,14 @@ import java.util.Scanner;
  * @author krist
  */
 public class OrderHistory implements IsValid{
+
     
     // The order history represents the grocery items the user of the AZGroceriesAccount pruchased in the past as well how much of each grocery item,
 // the total cost of their purchse
     
     private HashMap<Cart, String> orderHistory;
+    
+    
     
     OrderHistory()
     {
@@ -38,8 +41,9 @@ public class OrderHistory implements IsValid{
         {
             for ( Cart c : getOrderHistory().keySet())
             {
-                orderHistoryString += c.toString(shop);
+             //   orderHistoryString += c.toString(shop);
                 orderHistoryString += ". Purchased on: " + shop.getUserAccount().getOrderHistory().getOrderHistory().get(c);
+                
             }
              
         }
@@ -59,7 +63,6 @@ public class OrderHistory implements IsValid{
         
     }
       
-    
 
     /**
      * @return the orderHistory

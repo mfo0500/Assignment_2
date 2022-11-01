@@ -4,6 +4,7 @@
  */
 package onlineshopazgroceries;
 
+import onlineshopazgroceries.Models.SignInServiceModel;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -33,7 +34,6 @@ public class OnlineShopAZGroceries implements IsValid {
     private ListOfGroceries groceryList = new ListOfGroceries();
     //  private LinkedList<GroceryItems> Groceries = getGroceryList().loadGroceries();
     private AZGroceriesAccount userAccount;
-    private Categories categoryList;
     private String state;
     private ArrayList<GroceryItems> searched = new ArrayList<>();
     private GroceryItems selectedItem;
@@ -51,8 +51,7 @@ public class OnlineShopAZGroceries implements IsValid {
     // signInService is set to a new SignInService object 
     OnlineShopAZGroceries(AZGroceriesAccount userAccount) {
         // setGroceries(Groceries);
-        setGroceryList(getGroceryList().loadGroceries());
-        setCategoryList(new Categories());
+      //  setGroceryList(getGroceryList().loadGroceries());
         setUserAccount(userAccount);
         setCheckout(new CheckoutService());
         setSignInService(new SignInServiceModel());
@@ -66,8 +65,7 @@ public class OnlineShopAZGroceries implements IsValid {
     // signInService is set to a new SignInService object 
     OnlineShopAZGroceries() {
         //  setGroceries(Groceries);
-        setGroceryList(getGroceryList().loadGroceries());
-        setCategoryList(new Categories());
+     //   setGroceryList(getGroceryList().loadGroceries());
         setUserAccount(null);
         setCheckout(new CheckoutService());
         setSignInService(new SignInServiceModel());
@@ -419,22 +417,6 @@ public class OnlineShopAZGroceries implements IsValid {
         this.selectedItem = aSelectedItem;
     }
 
-    /**
-     * @return the Categories
-     */
-// The public Categories getCategoryList() returns the OnlineShopAZGroceries object's categoryList in the form of a Categories object.
-    public Categories getCategoryList() {
-        return categoryList;
-    }
-
-    /**
-     * @param categoryList the Categories to set
-     */
- // The public void setCategoryList(Categories categoryList) sets the OnlineShopAZGroceries object's categoryList to the provided 
- // Categories object (categoryList).
-    public void setCategoryList(Categories categoryList) {
-        this.categoryList = categoryList;
-    }
 
     /**
      * @return the groceryList

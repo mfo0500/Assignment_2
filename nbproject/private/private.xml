@@ -3,23 +3,37 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/SignInServiceModel.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/OrderHistory.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/CustomerAccount.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Views/CustomerShopView.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Models/AdminShopModel.java</file>
             <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/IsValid.java</file>
             <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/CheckoutService.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/CheckoutServiceView.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ShopController.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ShopView.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Model/ShopModel.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/CheckoutServiceModel.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ShopDatabase.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/OnlineShopAZGroceries.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Accounts.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Controllers/CheckoutServiceController.java</file>
             <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Cart.java</file>
             <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ShopMain.java</file>
-            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Categories.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/AdminAccount.java</file>
             <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ShopData.java</file>
             <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ListOfGroceries.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Views/SignInServiceView.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Models/OrderHistoryModel.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/OrderHistory.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/GroceryItems.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Controllers/AdminShopController.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Models/CheckoutServiceModel.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/.git/config</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/ShopDatabase.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Controllers/CartController.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Controllers/SignInServiceController.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/OnlineShopAZGroceries.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Controllers/CustomerShopController.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Models/CartModel.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Controllers/OrderHistoryController.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Views/OrderHistoryView.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Models/CustomerShopModel.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Models/SignInServiceModel.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Views/CheckoutServiceView.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Views/AdminShopView.java</file>
+            <file>file:/C:/Users/krist/OneDrive/Desktop/Programme%20Construction/Assignment%202/OnlineShopAZGroceries_GUI/src/onlineshopazgroceries/Views/CartView.java</file>
         </group>
     </open-files>
 </project-private>

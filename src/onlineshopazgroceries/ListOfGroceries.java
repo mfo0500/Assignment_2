@@ -42,105 +42,7 @@ public class ListOfGroceries implements IsValid {
         this.Groceries = Groceries;
     }
 
-    @Override
-    public String toString() {
-        String GroceryListString = "";
-        int i = 1;
-        for (GroceryItems g : getGroceries()) {
-            GroceryListString += i + ". Product Name: " + g.getProductName() + ", Price: $" + g.getPrice() + ", Quantity Available: " + g.getQuantityAvailable() + "\n";
-            i++;
-        }
-        return GroceryListString;
-    }
 
-    public ListOfGroceries loadGroceries() {
-        FileReader reader;
-        ListOfGroceries groceryList = new ListOfGroceries();
-        try {
-            reader = new FileReader("./resources/GroceryList.txt");
-            BufferedReader buffedReader = new BufferedReader(reader);
-            String Line = "";
-            
-            while ((Line = buffedReader.readLine()) != null) {
-                String[] itemDetails = Line.split(" ");
-                
-                GroceryItems newItem = new GroceryItems((String) itemDetails[0], Double.parseDouble(itemDetails[1]), (String) itemDetails[2], Integer.parseInt(itemDetails[3]));                
-                groceryList.getGroceries().add(newItem);
-                setGroceries(groceryList.getGroceries());
-            }
-            
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        } catch (IOException e) {
-            System.out.println("IO Exception");
-        }
-        return groceryList;
-        
-    }
-    
-    public void addnewProduct(OnlineShopAZGroceries shop) {
-        Scanner scan = new Scanner(System.in);
-        setState("enter product name");
-        System.out.println("Please enter product name: ");
-        String productNameInput = scan.nextLine();
-//        while (!IsValid(shop, productNameInput)) {
-//             System.out.println("Please enter product name: ");
-//            productNameInput = scan.nextLine();
-//        }
-//        if (IsValid(shop, productNameInput)) {
-//            System.out.println("Please enter product price:");
-//            setState("enter product price");
-//            String productPriceInput = scan.nextLine();
-//            while (!IsValid(shop, productPriceInput)) {
-//                productPriceInput = scan.nextLine();
-//            }
-//            if (IsValid(shop, productPriceInput)) {
-//                System.out.println("Please enter product category:");
-//                setState("enter product category");
-//                String productCategoryInput = scan.nextLine();
-//                while (!IsValid(shop, productCategoryInput)) {
-//                    productCategoryInput = scan.nextLine();
-//                }
-//                if (IsValid(shop, productCategoryInput)) {
-//                    setState("enter product quantity");
-//                    System.out.println("Please enter the quantity available:");
-//                    String productQuantityInput = scan.nextLine();
-//                    while (!IsValid(shop, productQuantityInput)) {
-//                        productQuantityInput = scan.nextLine();
-//                    }
-//                    if (IsValid(shop, productQuantityInput)) {
-//                        GroceryItems newItem = new GroceryItems(productNameInput, Double.parseDouble(productPriceInput), productCategoryInput, Integer.parseInt(productQuantityInput));
-//                        try {
-//                            //override the file if exists
-//                            BufferedWriter outputStream = new BufferedWriter(new FileWriter("./resources/GroceryList.txt", true));
-//                            System.out.println("The grocery item has been sucessfully added");
-//                            outputStream.append(newItem.getProductName() + " " + newItem.getPrice() + " " + newItem.getCategory() + " " + newItem.getQuantityAvailable());
-//                            outputStream.newLine();
-//                            outputStream.close();
-//                            getGroceries().add(newItem);
-//                            shop.openStore(shop);
-//                            
-//                        } catch (FileNotFoundException e) {
-//                            System.out.println("Error opening file");
-//                        } catch (IOException e) {
-//                            System.out.println("IO Exception");
-//                        }
-//                    }
-//                    
-//                }
-//                
-//            }
-            
-   //     }
-        
-    }
-    
-    public void removeGroceryItem(OnlineShopAZGroceries shop) {
-        System.out.println("Which item would you like to remove\n");
-        System.out.println(toString());
-        Scanner scan = new Scanner(System.in);
-        String itemChosen = scan.nextLine();
-        setState("remove item");
 //        while (!IsValid(shop, itemChosen)) {
 //            itemChosen = scan.nextLine();
 //        }
@@ -151,8 +53,6 @@ public class ListOfGroceries implements IsValid {
 //            updateGroceries();
 //            shop.openStore(shop);
 //        }
-        
-    }
     
     
     public void modifyQuantity(OnlineShopAZGroceries shop)
@@ -189,24 +89,6 @@ public class ListOfGroceries implements IsValid {
 //                shop.openStore(shop);
 //            }
 //        }
-    }
-    public void updateGroceries() {
-        try {
-            //override the file if exists
-            FileWriter outputStream = new FileWriter("./resources/GroceryList.txt");
-            
-            for (GroceryItems g : getGroceries()) {
-                outputStream.write(g.getProductName() + " " + g.getPrice() + " " + g.getCategory() + " " + g.getQuantityAvailable() + "\n");
-                
-            }
-            
-            outputStream.close();
-            
-        } catch (FileNotFoundException e) {
-            System.out.println("Error opening file");
-        } catch (IOException e) {
-            System.out.println("IO Exception");
-        }
     }
 
     /**

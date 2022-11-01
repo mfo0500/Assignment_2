@@ -4,7 +4,10 @@
  */
 package onlineshopazgroceries;
 
-import onlineshopazgroceries.Model.ShopModel;
+import onlineshopazgroceries.Views.SignInServiceView;
+import onlineshopazgroceries.Controllers.SignInServiceController;
+import onlineshopazgroceries.Models.SignInServiceModel;
+
 
 /**
  *
@@ -13,9 +16,10 @@ import onlineshopazgroceries.Model.ShopModel;
 public class ShopMain {
     
     public static void main(String[] args) {
-        ShopView view = new ShopView();
+        SignInServiceView view = new SignInServiceView();
+        
         SignInServiceModel model = new SignInServiceModel();
-        ShopController controller = new ShopController(view, model);
+        SignInServiceController controller = new SignInServiceController(view, model);
         
         model.addObserver(view);
     }
