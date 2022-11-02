@@ -240,8 +240,9 @@ public class ShopDatabase {
                 data.setItemAdded(true);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+             e.printStackTrace();
+            System.out.println("error - adding grocery item to database");
         }
 
         return data;
@@ -257,8 +258,9 @@ public class ShopDatabase {
             statement.executeUpdate("DELETE FROM TABLE_OF_GROCERY_ITEMS WHERE PRODUCTNAME = '" + productName + "'");
 
             data.setItemRemoved(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+             e.printStackTrace();
+            System.out.println("error - removing grocery item from database");
         }
 
         return data;
@@ -277,8 +279,9 @@ public class ShopDatabase {
             data.getListOfGroceries().getGroceries().get(numberOfGroceryItemModified).setQuantityAvailable(modifiedQuantityAvailable);
             data.setModifiedGroceryItem(data.getListOfGroceries().getGroceries().get(numberOfGroceryItemModified));
             data.setItemQuantityModified(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+              e.printStackTrace();
+            System.out.println("error - modifying quantity of grocery items in database");
         }
 
         return data;
@@ -325,8 +328,9 @@ public class ShopDatabase {
                 }
 
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+             e.printStackTrace();
+            System.out.println("error - loading cart from database");
         }
 
         return data;
@@ -556,8 +560,9 @@ public class ShopDatabase {
                 }
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+           e.printStackTrace();
+            System.out.println("error - checking login using database");
         }
         return data;
     }
@@ -604,8 +609,9 @@ public class ShopDatabase {
                 data.setAccountCreated(true);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+             e.printStackTrace();
+            System.out.println("error - validating admin account using database");
         }
         return data;
     }
@@ -653,8 +659,9 @@ public class ShopDatabase {
                 data.setAccountCreated(true);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(OnlineShopAZGroceries.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("error - validating customer account using database");
         }
         return data;
     }
